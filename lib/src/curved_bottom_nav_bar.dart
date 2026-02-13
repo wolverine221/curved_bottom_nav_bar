@@ -51,10 +51,10 @@ class CurvedBottomNavBar extends StatefulWidget {
   final double? curveDepth;
 
   const CurvedBottomNavBar({
-    super.key,
     required this.items,
     required this.currentIndex,
     required this.onTap,
+    super.key,
     this.backgroundColor,
     this.selectedColor,
     this.selectedSecondaryColor,
@@ -123,7 +123,7 @@ class _CurvedBottomNavBarState extends State<CurvedBottomNavBar>
     final selectedSecondaryColor =
         widget.selectedSecondaryColor ?? theme.primaryColor;
     final unselectedColor =
-        widget.unselectedColor ?? theme.disabledColor.withOpacity(0.5);
+        widget.unselectedColor ?? theme.disabledColor.withAlpha(128);
     final shadowColor = widget.shadowColor ?? Colors.black12;
 
     return SizedBox(
@@ -172,7 +172,7 @@ class _CurvedBottomNavBarState extends State<CurvedBottomNavBar>
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: selectedColor.withOpacity(0.3),
+                          color: selectedColor.withAlpha(77),
                           blurRadius: 15,
                           offset: const Offset(0, 5),
                         ),

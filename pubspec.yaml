@@ -1,0 +1,19 @@
+name: curved_bottom_nav_bar
+description: A beautiful curved bottom navigation bar with floating selected icon animation for Flutter applications.
+version: 1.0.0
+homepage: https://github.com/wolverine221/curved_bottom_nav_bar
+repository: https://github.com/wolverine221/curved_bottom_nav_bar
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_screenutil: ^5.9.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0

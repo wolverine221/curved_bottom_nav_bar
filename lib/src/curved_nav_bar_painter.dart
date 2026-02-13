@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 class CurvedNavBarPainter extends CustomPainter {
   final int selectedIndex;
   final int itemCount;
-  final Color color;
+  final Color? color;
+  final Gradient? gradient;
   final Color shadowColor;
   final double curveDepth;
   final double topOffset;
@@ -12,22 +13,16 @@ class CurvedNavBarPainter extends CustomPainter {
   CurvedNavBarPainter({
     required this.selectedIndex,
     required this.itemCount,
-    required this.color,
     required this.shadowColor,
+    this.color,
+    this.gradient,
     this.curveDepth = 35.0,
     this.topOffset = 20.0,
-  });
+  }) : assert(color != null || gradient != null, 
+            'Either color or gradient must be provided');
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.fill;
-
-    final shadowPaint = Paint()
-      ..color = shadowColor
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10);
-
     final path = Path();
     final itemWidth = size.width / itemCount;
     final curveStartX = (selectedIndex * itemWidth);
@@ -68,14 +63,29 @@ class CurvedNavBarPainter extends CustomPainter {
     path.close();
 
     // Draw shadow
+    final shadowPaint = Paint()
+      ..color = shadowColor
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10);
     canvas.drawPath(path, shadowPaint);
-    // Draw nav bar
+
+    // Draw nav bar with gradient or solid color
+    final paint = Paint()..style = PaintingStyle.fill;
+    
+    if (gradient != null) {
+      paint.shader = gradient!.createShader(
+        Rect.fromLTWH(0, 0, size.width, size.height),
+      );
+    } else {
+      paint.color = color!;
+    }
+    
     canvas.drawPath(path, paint);
   }
 
   @override
   bool shouldRepaint(CurvedNavBarPainter oldDelegate) {
     return oldDelegate.selectedIndex != selectedIndex ||
-        oldDelegate.color != color;
+        oldDelegate.color != color ||
+        oldDelegate.gradient != gradient;
   }
 }

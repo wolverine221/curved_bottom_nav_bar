@@ -14,14 +14,20 @@ class CurvedBottomNavBar extends StatefulWidget {
   /// Callback when an item is tapped
   final Function(int) onTap;
 
-  /// Background color of the navigation bar
+  /// Background color of the navigation bar (ignored if backgroundGradient is provided)
   final Color? backgroundColor;
+
+  /// Background gradient for the navigation bar (takes priority over backgroundColor)
+  final Gradient? backgroundGradient;
 
   /// Color of the selected item (floating button background)
   final Color? selectedColor;
 
   /// Secondary color for gradient effect on floating button
   final Color? selectedSecondaryColor;
+
+  /// Gradient for the floating button (takes priority over selectedColor/selectedSecondaryColor)
+  final Gradient? floatingButtonGradient;
 
   /// Color of unselected items
   final Color? unselectedColor;
@@ -56,8 +62,10 @@ class CurvedBottomNavBar extends StatefulWidget {
     required this.onTap,
     super.key,
     this.backgroundColor,
+    this.backgroundGradient,
     this.selectedColor,
     this.selectedSecondaryColor,
+    this.floatingButtonGradient,
     this.unselectedColor,
     this.shadowColor,
     this.height,
@@ -138,8 +146,9 @@ class _CurvedBottomNavBarState extends State<CurvedBottomNavBar>
             painter: CurvedNavBarPainter(
               selectedIndex: _selectedIndex,
               itemCount: widget.items.length,
-              color: backgroundColor,
               shadowColor: shadowColor,
+              color: widget.backgroundGradient == null ? backgroundColor : null,
+              gradient: widget.backgroundGradient,
               curveDepth: widget.curveDepth ?? 35.0,
             ),
           ),
@@ -162,7 +171,7 @@ class _CurvedBottomNavBarState extends State<CurvedBottomNavBar>
                     height: floatingButtonSize,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      gradient: LinearGradient(
+                      gradient: widget.floatingButtonGradient ?? LinearGradient(
                         colors: [
                           selectedColor,
                           selectedSecondaryColor,
